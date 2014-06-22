@@ -1,5 +1,7 @@
 {
     "Title": "ABC iView",
     "ProgramsTitle": "Programs A-Z",
-    "ChannelsTitle": "Channels"
+    "ChannelsTitle": "Channels",
+    "RecentTitle": "Recently Added",
+    "LastChanceTitle": "Last Chance"
 }

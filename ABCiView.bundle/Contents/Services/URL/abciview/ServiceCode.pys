@@ -1,0 +1,60 @@
+from config import *
+
+CONFIG_CACHE = 86400000
+IVIEW_NS = {'a': 'http://www.abc.net.au/iView/Services/iViewHandshaker'}
+CONFIG_URL = 'http://www.abc.net.au/iview/xml/config.xml'
+SWF_URL = 'http://www.abc.net.au/iview/images/iview.jpg'
+
+
+def NormalizeURL(url):
+	return url.replace('\\', '')
+
+
+def MetadataObjectForURL(url):
+	json = JSON.ObjectFromURL(url)
+
+	return EpisodeObject(
+		duration = int(json.get('duration')) * 1000,
+		originally_available_at = Datetime.ParseDate(json.get('pubDate')),
+		show = json.get('seriesTitle'),
+		summary = json.get('description'),
+		thumb = json.get('thumbnail'),
+		title = json.get('title')
+	)
+
+
+def MediaObjectsForURL(url):
+	return [
+		MediaObject(
+			parts = [PartObject(key = Callback(PlayVideo, url=url))]
+		)
+	]
+
+
+@indirect
+def PlayVideo(url):
+	CONFIG_XML = XML.ElementFromURL(CONFIG_URL, cacheTime=CONFIG_CACHE)
+
+	AUTH_URL = CONFIG_XML.xpath('/config/param[@name="auth"]/@value')[0]
+	RTMP_URL = CONFIG_XML.xpath('/config/param[@name="server_streaming"]/@value')[0]
+
+	AUTH_XML = XML.ElementFromURL(AUTH_URL)
+
+	TOKEN = AUTH_XML.xpath('//a:token/text()', namespaces=IVIEW_NS)[0]
+	CLIP_PATH = 'mp4:flash/' + AUTH_XML.xpath('//a:path/text()', namespaces=IVIEW_NS)[0]
+
+
+	html = HTML.ElementFromURL(url.replace('api/',''))
+	el = html.xpath('//div[@class="video-wrapper-position"]/script/text()')[0]
+
+	video_path = ''
+	for pair in el.split('","'):
+		if pair.split('":"')[0] == 'mediaPath':
+			video_path = pair.split(':"')[1][:-4].replace('\\', '')
+
+	rtmp_video = RTMPVideoURL(
+		url = RTMP_URL + '?auth=' + TOKEN,
+		clip = CLIP_PATH + video_path,
+		swf_url = SWF_URL)
+
+	return IndirectResponse(VideoClipObject, key=rtmp_video)
