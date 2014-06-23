@@ -36,4 +36,7 @@ class Item(object):
 		else:
 			item.title = json.get('seriesTitle')
 
+		# working around an issue with programs that have '.' in their title
+		item.title = item.title.replace('.',':')
+
 		return item
