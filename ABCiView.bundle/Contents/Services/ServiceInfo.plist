@@ -7,9 +7,6 @@
     <dict>
         <key>abciview</key>
         <dict>
-			<key>Identifier</key>
-			<string>com.plexapp.plugins.naabciview</string>
-
             <key>URLPatterns</key>
             <array>
                 <string>http://iview.abc.net.au/.+</string>

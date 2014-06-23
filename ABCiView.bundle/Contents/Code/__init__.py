@@ -5,7 +5,7 @@ from channels import *
 from categories import *
 from item import *
 
-VIDEO_PREFIX = '/video/naabciview'
+VIDEO_PREFIX = '/video/abciview'
 
 def Start():
     Plugin.AddViewGroup('List', viewMode='List', mediaType='items')
