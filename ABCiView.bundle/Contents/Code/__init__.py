@@ -16,14 +16,21 @@ def Start():
 def MainMenu():
     oc = ObjectContainer(view_group='InfoList')
 
-    oc.add(DirectoryObject(key=Callback(CollectionsMenu, id=334), title=L('RecentTitle')))
-    oc.add(DirectoryObject(key=Callback(CollectionsMenu, id=333), title=L('LastChanceTitle')))
+    oc.add(DirectoryObject(
+        key=Callback(CollectionsMenu, id=334), title=L('RecentTitle'), thumb=R('icon-new.png')))
+    oc.add(DirectoryObject(
+        key=Callback(CollectionsMenu, id=333), title=L('LastChanceTitle'), thumb=R('icon-old.png')))
 
     for category in Categories.GetList():
-        oc.add(DirectoryObject(key=Callback(CategoriesEpisodeMenu, category_id=category.id), title=category.title))
+        oc.add(DirectoryObject(
+            key=Callback(CategoriesEpisodeMenu, category_id=category.id),
+            title=category.title,
+            thumb=R(category.thumb)))
 
-    oc.add(DirectoryObject(key=Callback(ProgramsMenu), title=L('ProgramsTitle')))
-    oc.add(DirectoryObject(key=Callback(ChannelsMenu), title=L('ChannelsTitle')))
+    oc.add(DirectoryObject(
+        key=Callback(ProgramsMenu), title=L('ProgramsTitle'), thumb=R('icon-programs.png')))
+    oc.add(DirectoryObject(
+        key=Callback(ChannelsMenu), title=L('ChannelsTitle'), thumb=R('icon-channels.png')))
     return oc
 
 

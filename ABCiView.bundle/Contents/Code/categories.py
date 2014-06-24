@@ -12,7 +12,7 @@ class Categories():
 			category = Item()
 			category.id = li.xpath('./a/@href')[0].split('/')[-1]
 			category.path = li.xpath('./a/@href')[0]
-			#category.thumb = ''
+			category.thumb = 'icon-' + category.path.replace('/category/','') + '.png'
 			category.title = li.xpath('./a/text()')[0]
 			categories.append(category)
 
