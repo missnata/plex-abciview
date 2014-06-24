@@ -34,30 +34,12 @@ def MainMenu():
     return oc
 
 
-@route(VIDEO_PREFIX + '/collection/{id}')
-def CollectionsMenu(id):
-    oc = ObjectContainer(view_group='InfoList')
-
-    for ep in Collection.GetEpisodes(id):
-        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
-
-    return oc
-
 @route(VIDEO_PREFIX + '/programs')
 def ProgramsMenu():
     oc = ObjectContainer(view_group='InfoList')
 
     for program in Programs.GetList():
         oc.add(DirectoryObject(key=Callback(ProgramEpisodeMenu, program_name=program.title), title=program.title))
-
-    return oc
-
-@route(VIDEO_PREFIX + '/program/{program_name}')
-def ProgramEpisodeMenu(program_name):
-    oc = ObjectContainer(view_group='InfoList')
-
-    for ep in Programs.GetEpisodes(program_name):
-        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
 
     return oc
 
@@ -70,23 +52,23 @@ def ChannelsMenu():
 
     return oc
 
+
+@route(VIDEO_PREFIX + '/collection/{id}')
+def CollectionsMenu(id):
+    return EpisodeMenu(Collection.GetEpisodes(id))
+
+@route(VIDEO_PREFIX + '/program/{program_name}')
+def ProgramEpisodeMenu(program_name):
+    return EpisodeMenu(Programs.GetEpisodes(program_name))
+
 @route(VIDEO_PREFIX + '/channel/{channel_id}')
 def ChannelEpisodeMenu(channel_id):
-    oc = ObjectContainer(view_group='InfoList')
-
-    for ep in Channels.GetEpisodes(channel_id):
-        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
-
-    return oc
+    return EpisodeMenu(Channels.GetEpisodes(channel_id))
 
 @route(VIDEO_PREFIX + '/category/{category_id}')
 def CategoriesEpisodeMenu(category_id):
-    oc = ObjectContainer(view_group='InfoList')
+    return EpisodeMenu(Categories.GetEpisodes(category_id))
 
-    for ep in Categories.GetEpisodes(category_id):
-        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
-
-    return oc
 
 @route(VIDEO_PREFIX + '/episode/play')
 def GetVideo(path, title, thumb):
@@ -95,3 +77,12 @@ def GetVideo(path, title, thumb):
         thumb = thumb,
         url = Config.API_URL + path
     )
+
+
+def EpisodeMenu(episode_list):
+    oc = ObjectContainer(view_group='InfoList')
+
+    for ep in episode_list:
+        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
+
+    return oc
