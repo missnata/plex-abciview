@@ -39,7 +39,7 @@ def CollectionsMenu(id):
     oc = ObjectContainer(view_group='InfoList')
 
     for ep in Collection.GetEpisodes(id):
-        oc.add(GetVideo(ep.path, ep.title, ep.duration, ep.thumb))
+        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
 
     return oc
 
@@ -57,7 +57,7 @@ def ProgramEpisodeMenu(program_name):
     oc = ObjectContainer(view_group='InfoList')
 
     for ep in Programs.GetEpisodes(program_name):
-        oc.add(GetVideo(ep.path, ep.title, ep.duration, ep.thumb))
+        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
 
     return oc
 
@@ -75,7 +75,7 @@ def ChannelEpisodeMenu(channel_id):
     oc = ObjectContainer(view_group='InfoList')
 
     for ep in Channels.GetEpisodes(channel_id):
-        oc.add(GetVideo(ep.path, ep.title, ep.duration, ep.thumb))
+        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
 
     return oc
 
@@ -84,15 +84,14 @@ def CategoriesEpisodeMenu(category_id):
     oc = ObjectContainer(view_group='InfoList')
 
     for ep in Categories.GetEpisodes(category_id):
-        oc.add(GetVideo(ep.path, ep.title, ep.duration, ep.thumb))
+        oc.add(GetVideo(ep.path, ep.title, ep.thumb))
 
     return oc
 
 @route(VIDEO_PREFIX + '/episode/play')
-def GetVideo(path, title, duration, thumb):
+def GetVideo(path, title, thumb):
     return EpisodeObject(
         title = title,
-        duration = int(duration),
         thumb = thumb,
         url = Config.API_URL + path
     )
