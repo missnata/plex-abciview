@@ -9,7 +9,7 @@
         <dict>
             <key>URLPatterns</key>
             <array>
-                <string>http://iview.abc.net.au/.+</string>
+                <string>http://iview.abc.net.au/api/programs/.+/</string>
             </array>
         </dict>
     </dict>

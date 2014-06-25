@@ -19,8 +19,8 @@ class Categories():
 		return categories
 
 	@classmethod
-	def GetEpisodes(self, category_id):
-		json = JSON.ObjectFromURL(Config.API_URL + 'category/' + category_id,
+	def GetEpisodes(self, id):
+		json = JSON.ObjectFromURL(Config.API_URL + 'category/' + id + '/all?sort=date',
 			cacheTime=Config.EPISODE_CACHE)
 
 		episodes = []

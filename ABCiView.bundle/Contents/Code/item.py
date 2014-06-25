@@ -25,6 +25,8 @@ class Item(object):
 			item.title = json.get('seriesTitle')
 
 		# working around an issue with programs that have '.' in their title
+		# problem seems to occur when setting title field of EpisodeObject,
+		# the dot and anything after it is not displayed
 		item.title = item.title.replace('.',':')
 
 		return item

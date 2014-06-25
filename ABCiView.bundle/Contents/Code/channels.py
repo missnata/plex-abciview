@@ -19,8 +19,8 @@ class Channels():
 		return channels
 
 	@classmethod
-	def GetEpisodes(self, channel_id):
-		json = JSON.ObjectFromURL(Config.API_URL + 'channel/' + channel_id,
+	def GetEpisodes(self, id):
+		json = JSON.ObjectFromURL(Config.API_URL + 'channel/' + id + '/all?sort=date',
 			cacheTime=Config.EPISODE_CACHE)
 
 		episodes = []
