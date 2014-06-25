@@ -22,8 +22,8 @@ class Collections():
 
 	@classmethod
 	def GetEpisodes(self, id):
-		json = JSON.ObjectFromURL(Config.API_URL + 'collection/' + id + '/all?sort=date',
-			cacheTime=Config.EPISODE_CACHE)
+		url = Config.EPISODE_LIST_URL % ('collection', id)
+		json = JSON.ObjectFromURL(url, cacheTime=Config.EPISODE_CACHE)
 
 		episodes = []
 		for ep in json['episodes']:

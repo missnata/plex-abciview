@@ -20,8 +20,8 @@ class Channels():
 
 	@classmethod
 	def GetEpisodes(self, id):
-		json = JSON.ObjectFromURL(Config.API_URL + 'channel/' + id + '/all?sort=date',
-			cacheTime=Config.EPISODE_CACHE)
+		url = Config.EPISODE_LIST_URL % ('channel', id)
+		json = JSON.ObjectFromURL(url, cacheTime=Config.EPISODE_CACHE)
 
 		episodes = []
 		for c in json['carousels']:
